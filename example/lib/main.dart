@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
@@ -85,19 +86,62 @@ class _ZoomState extends State<Zoom> {
   @override
   Widget build(BuildContext context) {
     return ZoomDrawer(
+      // controller: z,
+      // borderRadius: 24,
+      // style: DrawerStyle.Style1,
+      // openCurve: Curves.fastOutSlowIn,
+      // disableGesture: false,
+      // mainScreenTapClose: false,
+      // slideWidth: MediaQuery.of(context).size.width * 0.65,
+      // duration: const Duration(milliseconds: 500),
+      // backgroundColor: Colors.white,
+      // showShadow: true,
+      // angle: 0.0,
+      // clipMainScreen: true,
       controller: z,
+      style: DrawerStyle.Style2,
       borderRadius: 24,
-      style: DrawerStyle.Style1,
-      openCurve: Curves.fastOutSlowIn,
-      disableGesture: false,
-      mainScreenTapClose: false,
-      slideWidth: MediaQuery.of(context).size.width * 0.65,
-      duration: const Duration(milliseconds: 500),
-      backgroundColor: Colors.white,
+      slideWidth: MediaQuery.of(context).size.width * .85,
       showShadow: true,
-      angle: 0.0,
-      clipMainScreen: true,
-      mainScreen: const Body(),
+      openCurve: Curves.fastOutSlowIn,
+      closeCurve: Curves.fastOutSlowIn,
+      mainScreen: CupertinoTabScaffold(
+        tabBar: CupertinoTabBar(
+            onTap: (int newIndex) {},
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: '任务',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.menu),
+                label: '菜单',
+              ),
+              BottomNavigationBarItem(icon: SizedBox.shrink()),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.analytics),
+                label: '统计',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: '我的',
+              ),
+            ]),
+        tabBuilder: (BuildContext context, int index) {
+          switch (index) {
+            case 0:
+              return Body();
+            case 1:
+              return Body();
+            case 3:
+              return Body();
+            case 4:
+              return Body();
+            default:
+              return Body();
+          }
+        },
+      ),
       menuScreen: Theme(
         data: ThemeData.dark(),
         child: const Scaffold(
@@ -209,7 +253,13 @@ class _TwoPanelsState extends State<TwoPanels> with TickerProviderStateMixin {
               leading: IconButton(
                 icon: Icon(Icons.menu),
                 onPressed: () {
-                  z.toggle!();
+                  // z.toggle!();
+                  var drawer = ZoomDrawer.of(context);
+                  if (drawer?.isOpen() == true) {
+                    drawer?.close();
+                  } else {
+                    drawer?.open();
+                  }
                 },
               ),
               bottom: TabBar(
