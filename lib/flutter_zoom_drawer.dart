@@ -2,6 +2,7 @@ library flutter_zoom_drawer;
 
 import 'dart:math' show pi;
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class ZoomDrawerController {
@@ -315,20 +316,17 @@ class _ZoomDrawerState extends State<ZoomDrawer>
     final cornerRadius = widget.borderRadius * _percentOpen;
 
     /// calculated rotation amount based on the provided angle and animation value
-    final rotationAngle =
-        (((angle ?? widget.angle) * pi * _rtlSlide) / 180) * _percentOpen;
+    final rotationAngle = (((angle ?? widget.angle) * pi) / 180);
 
     return Transform(
       transform: Matrix4.translationValues(slideAmount, 0.0, 0.0)
         ..rotateZ(rotationAngle)
         ..scale(contentScale, contentScale),
       alignment: Alignment.centerLeft,
-      child: isMain
-          ? container
-          : ClipRRect(
-              borderRadius: BorderRadius.circular(cornerRadius),
-              child: container,
-            ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(cornerRadius),
+        child: container,
+      ),
     );
   }
 
